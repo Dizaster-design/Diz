@@ -1,0 +1,43 @@
+#include <stdio.h>
+#include <math.h>
+double polynom(const char *expr, double x){
+    int c1 = 0;int sum = 0;int b = 0;int j = 0;int c = 0;int m=0;
+    for(int i = 0;expr[i] == 0;i++){
+        if(expr[i] == 'x'){
+            if(expr[i + 1] == '^'){
+                b = i + 1;
+                m = pow(x,expr[i + 1]);
+                if(expr[i - 1] == '*'){
+                    j = i - 2;
+                    while(expr[j] >= '0' && expr[j] <= '9'){
+                        c1 = c1 * pow(10,c) +(int)(expr[j] - '0');
+                        c++; j--;
+                    }
+                    m = m * c1;
+                    if(expr[i -(c + 1)] == '-'){
+                        m = m * (-1);
+                        sum += m;
+                    }
+                    else sum +=m;
+                    c1 = 0;
+                }
+                else sum += m;
+            }
+            else sum += x;
+        }
+        if(expr[i] >= '0' && expr[i] <= '9' && i != b){
+            while(expr[i] >= '0' && expr[i] <= '9'){
+                c1 = c1 * 10 + (int)(expr[i] - '0');
+                i += 1;
+            }
+            sum += c1;
+            c1 = 0;
+        }
+    }
+    return sum;
+}
+int main() {
+    const char *expr = "x^4+15*x^3-3*x^2+x-2";
+       double x = 3.14;
+    printf("y(%f)=%s returns %f", x, expr, polynom(expr, x));
+}
